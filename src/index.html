@@ -4,20 +4,25 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+    <title>To Do App</title>
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <load src="./partials/header.html" icon-path="img/sprite.svg#logo" />
-
     <main>
-      <!-- Loads the specified .html file -->
-      <load src="./partials/vite-promo.html" />
-      <load src="./partials/badges.html" />
+      <h1>TO DO LIST</h1>
+      <p>Add your first task ☺️</p>
+      <form>
+        <input
+          type="text"
+          id="task-input"
+          name="task"
+          placeholder="Your task"
+        />
+        <button type="submit" class="add-btn">Add Task</button>
+      </form>
+      <ul id="to-do-list"></ul>
+      <!-- <button type="button" class="remove-btn">Remove Task</button> -->
     </main>
-
-    <load src="./partials/footer.html" />
-
     <script type="module" src="main.js"></script>
   </body>
 </html>
