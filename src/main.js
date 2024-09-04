@@ -30,15 +30,10 @@ function removeTask(event) {
   const taskIndex = tasks.indexOf(taskText.trim());
   tasks.splice(taskIndex, 1);
   localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
-  taskItem.classList.add('removing');
-  setTimeout(() => {
-    taskItem.remove();
-
-    // Show the placeholder text if all tasks are removed
-    if (tasks.length === 0) {
-      firstTaskText.style.display = 'block';
-    }
-  }, 500); // Match the timeout with the duration of the CSS transition
+  taskItem.remove();
+  if (tasks.length === 0) {
+    firstTaskText.style.display = 'block';
+  }
 }
 
 form.addEventListener('submit', addTask);
