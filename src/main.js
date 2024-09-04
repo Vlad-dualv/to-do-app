@@ -4,10 +4,13 @@ const firstTaskText = document.querySelector('p');
 const toDoList = document.querySelector('ul');
 const TASK_KEY = 'Task';
 
+let tasks = [];
+
 function addTask(event) {
   event.preventDefault();
   const task = input.value.trim();
-  const json = JSON.stringify(task);
+  tasks.push(task);
+  const json = JSON.stringify(tasks);
   localStorage.setItem(TASK_KEY, json);
   firstTaskText.style.display = 'none';
   const newTask = document.createElement('li');
@@ -22,7 +25,20 @@ function addTask(event) {
 }
 
 function removeTask(event) {
-  event.target.parentElement.remove();
+  const taskItem = event.target.parentElement;
+  const taskText = taskItem.firstChild.textContent;
+  const taskIndex = tasks.indexOf(taskText.trim());
+  tasks.splice(taskIndex, 1);
+  localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
+  taskItem.classList.add('removing');
+  setTimeout(() => {
+    taskItem.remove();
+
+    // Show the placeholder text if all tasks are removed
+    if (tasks.length === 0) {
+      firstTaskText.style.display = 'block';
+    }
+  }, 500); // Match the timeout with the duration of the CSS transition
 }
 
 form.addEventListener('submit', addTask);
@@ -30,4 +46,22 @@ toDoList.addEventListener('click', function (event) {
   if (event.target.classList.contains('remove-btn')) {
     removeTask(event);
   }
+});
+window.addEventListener('load', e => {
+  const savedTasks = JSON.parse(localStorage.getItem(TASK_KEY)) || [];
+  tasks = savedTasks;
+  if (tasks.length > 0) {
+    firstTaskText.style.display = 'none';
+  }
+
+  tasks.forEach(task => {
+    const newTask = document.createElement('li');
+    const removeTaskBtn = document.createElement('button');
+    newTask.textContent = task;
+    removeTaskBtn.type = 'button';
+    removeTaskBtn.textContent = 'Remove Task';
+    removeTaskBtn.classList.add('remove-btn');
+    toDoList.append(newTask);
+    newTask.append(removeTaskBtn);
+  });
 });
